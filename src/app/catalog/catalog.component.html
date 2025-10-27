@@ -19,7 +19,13 @@
           </div>
         </div>
         <div class="price">
-          <div *ngIf="product.discount === 0">{{ product?.price | currency:'USD' }}</div>
+          <div 
+            style="font-weight: bolder"
+            [ngStyle]="{ 'color': product.discount > 0 ? 'red' : ''}"
+            [ngClass]="getDiscountedClasses(product)"
+          >
+            {{ product?.price | currency:'USD' }}
+          </div>
           <div *ngIf="product.discount > 0" class="discount">
             {{ (product.price * (1 - product.discount)) | currency:'USD' }}
           </div>

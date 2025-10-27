@@ -196,4 +196,9 @@ export class CatalogComponent {
       ? this.products 
       : this.products?.filter((product) => product?.category === this.filter);
   }
+
+  getDiscountedClasses(product: IProduct) {
+    if (product.discount > 0) return ['strikethrough'];
+    else return [];
+  }
 }
