@@ -4,11 +4,12 @@ import { IProduct } from './product.model';
 @Component({
   selector: 'bot-catalog',
   templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.css']
+  styleUrls: ['./catalog.component.css'],
 })
 export class CatalogComponent {
   products: IProduct[];
   filter: string = '';
+  cart: IProduct[] = [];
 
   constructor() {
     this.products = [
@@ -185,20 +186,16 @@ export class CatalogComponent {
         discount: 0,
       },
     ];
-  }
-
-  getImageUrl(product: IProduct) {
-    return '/assets/images/robot-parts/' + product?.imageName;
-  }
+  };
 
   getFilteredProducts() {
     return this.filter === '' 
       ? this.products 
       : this.products?.filter((product) => product?.category === this.filter);
   }
-
-  getDiscountedClasses(product: IProduct) {
-    if (product.discount > 0) return ['strikethrough'];
-    else return [];
+ 
+  addToCart(product: IProduct) {
+    this.cart.push(product);
+    console.log(`addToCart in catalog.component: product ${product.name} added to cart.`)
   }
 }
