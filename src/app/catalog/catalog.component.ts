@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IProduct } from './product.model';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'bot-catalog',
@@ -9,9 +10,15 @@ import { IProduct } from './product.model';
 export class CatalogComponent {
   products: IProduct[];
   filter: string = '';
-  cart: IProduct[] = [];
 
-  constructor() {
+  //alternative to constructor injection:
+  //private cartSvc: CartService = inject(CartService);
+  //Also need to add Inject to import list for @angular/core at top of file.
+  //Be aware that using inject() instead of constructor injection may
+  //affect unit testing.  Joe Eames recommends sticking with the
+  //constructor injection mechanism.
+
+  constructor(private cartSvc: CartService) {
     this.products = [
       {
         id: 1,
@@ -188,14 +195,14 @@ export class CatalogComponent {
     ];
   };
 
+  addToCart(product: IProduct) {
+    this.cartSvc.add(product);
+  }
+
   getFilteredProducts() {
     return this.filter === '' 
       ? this.products 
       : this.products?.filter((product) => product?.category === this.filter);
   }
- 
-  addToCart(product: IProduct) {
-    this.cart.push(product);
-    console.log(`addToCart in catalog.component: product ${product.name} added to cart.`)
-  }
+
 }
